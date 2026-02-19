@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { messagesAPI, Message, adminAPI } from '../services/consultancyAPI';
+import { io } from 'socket.io-client';
 import './MessagesPage.css';
 
 type Tab = 'inbox' | 'sent' | 'compose' | 'support';
@@ -9,7 +10,7 @@ type Tab = 'inbox' | 'sent' | 'compose' | 'support';
 export default function MessagesPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('inbox');
   const [inbox, setInbox] = useState<Message[]>([]);
   const [sent, setSent] = useState<Message[]>([]);
@@ -46,6 +47,32 @@ export default function MessagesPage() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    const apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim();
+    const socketUrl = apiUrl.replace(/\/api\/?$/, '');
+
+    const socket = io(socketUrl, {
+      auth: { token },
+      transports: ['websocket'],
+    });
+
+    socket.on('message:new', (payload: { message: Message; direction: 'sent' | 'received' }) => {
+      if (payload.direction === 'received') {
+        setInbox((prev) => [payload.message, ...prev]);
+      } else {
+        setSent((prev) => [payload.message, ...prev]);
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [token]);
 
   const loadMessages = async () => {
     try {

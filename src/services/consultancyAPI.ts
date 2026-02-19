@@ -320,6 +320,19 @@ export const paymentAPI = {
         userServiceId,
       }),
     }),
+  downloadInvoice: async (paymentId: string) => {
+    const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim();
+    const token = localStorage.getItem('auth_token');
+    const res = await fetch(`${API_URL}/payments/invoice/${paymentId}`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : '',
+      },
+    });
+    if (!res.ok) {
+      throw new Error('Failed to download invoice');
+    }
+    return res.blob();
+  },
 };
 
 // ============ Admin API ============
