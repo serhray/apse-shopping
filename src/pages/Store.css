@@ -1,0 +1,157 @@
+.store-page {
+  padding: 40px 0;
+}
+
+.store-page .page-header {
+  margin-bottom: 30px;
+}
+
+.store-page .page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.store-page .page-header p {
+  color: var(--color-text-light);
+  margin-top: 4px;
+}
+
+/* Filters bar */
+.store-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--color-white);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.store-filters .filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.store-filters label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+.store-filters select {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  background: var(--color-white);
+}
+
+.store-filters .results-count {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Grid view */
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* Sidebar layout */
+.store-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+}
+
+.store-sidebar {
+  background: var(--color-white);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  height: fit-content;
+  position: sticky;
+  top: 70px;
+}
+
+.sidebar-section {
+  margin-bottom: 24px;
+}
+
+.sidebar-section:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-section h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.sidebar-section ul li {
+  padding: 6px 0;
+}
+
+.sidebar-section ul li a {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-section ul li a:hover {
+  color: var(--color-primary);
+}
+
+.sidebar-section ul li a .count {
+  background: var(--color-bg);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Price filter */
+.price-range {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.price-range input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .store-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .store-sidebar {
+    position: static;
+  }
+
+  .store-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .store-grid {
+    grid-template-columns: 1fr;
+  }
+}
