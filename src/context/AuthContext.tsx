@@ -30,8 +30,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedUser = localStorage.getItem('auth_user');
 
     if (storedToken && storedUser) {
+      const parsed = JSON.parse(storedUser);
+      // Ensure legacy sessions without `name` still work
+      if (!parsed.name) parsed.name = parsed.email || '';
       setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+      setUser(parsed);
     }
     setIsLoading(false);
   }, []);
@@ -51,7 +54,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         throw new Error(data.message || 'Login failed');
       }
 
-      const { token: newToken, user: newUser } = data.data;
+      const { token: newToken, user: rawUser } = data.data;
+
+      // Backend sends firstName + lastName; normalize to name for UI
+      const newUser: User = {
+        id: rawUser.id,
+        email: rawUser.email,
+        name: [rawUser.firstName, rawUser.lastName].filter(Boolean).join(' ').trim() || rawUser.email,
+        role: rawUser.role,
+      };
       
       setToken(newToken);
       setUser(newUser);
