@@ -12,7 +12,7 @@ export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    navigate('/dashboard', { replace: true });
+    navigate('/', { replace: true });
     return null;
   }
 
@@ -22,13 +22,8 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const user = await login(email, password);
-      // Redirect based on user role
-      if (user?.role === 'ADMIN') {
-        navigate('/admin');
-      } else {
-        navigate('/dashboard');
-      }
+      await login(email, password);
+      navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
     } finally {
@@ -48,25 +43,25 @@ export default function LoginPage() {
           <div className="brand-logo">
             <span className="logo-mark">A</span>
             <div>
-              <h1>APSE Trading</h1>
-              <span className="brand-tagline">International Trade Consultancy</span>
+              <h1>APSE Shopping</h1>
+              <span className="brand-tagline">APSE Shopping Store</span>
             </div>
           </div>
         </div>
 
         <div className="login-hero">
-          <h2>Streamline your<br />import &amp; export<br />operations</h2>
-          <p>Connect with verified partners, manage logistics, and complete deals — all in one platform.</p>
+          <h2>Welcome back to<br />APSE<br />Shopping</h2>
+          <p>Sign in to track orders, manage your cart, and continue shopping with ease.</p>
 
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-number">5</span>
-              <span className="hero-stat-label">Service Stages</span>
+              <span className="hero-stat-label">Main Modules</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
               <span className="hero-stat-number">100+</span>
-              <span className="hero-stat-label">Partners</span>
+              <span className="hero-stat-label">Products</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
@@ -148,7 +143,7 @@ export default function LoginPage() {
               onClick={() => fillCredentials('exporter@test.com', 'admin123')}
             >
               <div className="test-account-info">
-                <span className="test-role">Exporter</span>
+                <span className="test-role">Customer</span>
                 <span className="test-email">exporter@test.com</span>
               </div>
               <span className="test-arrow">&rarr;</span>

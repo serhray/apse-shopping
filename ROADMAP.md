@@ -17,18 +17,18 @@ Refazer o frontend para ficar visualmente equivalente ao site de referência (ht
 ---
 
 ## FASE A — Base Visual e Navegação
-- [ ] Reestruturar `Header` para refletir menu e hierarquia visual do site de referência
-- [ ] Validar ordem e rotas dos 4 módulos no navbar
-- [ ] Ajustar topbar (contatos/atalhos) com versão própria
-- [ ] Garantir responsividade do header/menu
+- [x] Reestruturar `Header` para refletir menu e hierarquia visual do site de referência
+- [x] Validar ordem e rotas dos 4 módulos no navbar
+- [x] Ajustar topbar (contatos/atalhos) com versão própria
+- [x] Garantir responsividade do header/menu
 
 ## FASE B — Home (Layout Principal)
-- [ ] Hero/banner principal com slider e CTA
-- [ ] Blocos de benefícios (shipping/guarantee/support)
-- [ ] Seção de promoções horizontais
-- [ ] Seção “Top Categories”
-- [ ] Seções de produtos (featured/best/latest/top rated)
-- [ ] Footer estilo e-commerce consistente
+- [x] Hero/banner principal com slider e CTA
+- [x] Blocos de benefícios (shipping/guarantee/support)
+- [x] Seção de promoções horizontais
+- [x] Seção “Top Categories”
+- [x] Seções de produtos (featured/best/latest/top rated)
+- [x] Footer estilo e-commerce consistente
 
 ## FASE C — Módulos
 - [ ] **Retail/Wholesale**: revisar layout e consistência visual com a nova home
@@ -54,4 +54,4 @@ Refazer o frontend para ficar visualmente equivalente ao site de referência (ht
 ---
 
 ## Próximo Passo Imediato
-Iniciar **FASE A**: consolidar header/topbar/menu e garantir que os 4 módulos estejam corretos e consistentes com o novo direcionamento visual.
+Iniciar **FASE C**: revisar e padronizar as páginas dos 4 módulos (Retail/Wholesale, Request for Quote, Services & Pre-Owned e Export & Import) para o mesmo nível visual da Home.
