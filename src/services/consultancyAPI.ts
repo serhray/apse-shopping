@@ -147,6 +147,26 @@ export interface TopPartner {
   serviceCount: number;
 }
 
+export interface TwoFactorStatus {
+  enabled: boolean;
+  hasSecret: boolean;
+  backupCodesRemaining: number;
+  verifiedAt?: string | null;
+}
+
+export interface DealRecord {
+  id: string;
+  product: string;
+  volume: number;
+  value: number;
+  origin: string;
+  destination: string;
+  status: string;
+  metadata?: Record<string, unknown>;
+  completedAt?: string | null;
+  createdAt: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   message?: string;
@@ -226,6 +246,32 @@ export const authAPI = {
     apiCall('/auth/resend-verification', {
       method: 'POST',
       body: JSON.stringify({ email }),
+    }),
+  getTwoFactorStatus: () => apiCall<TwoFactorStatus>('/auth/2fa/status'),
+  setupTwoFactor: () =>
+    apiCall<{
+      enabled: boolean;
+      otpauth: string;
+      qrCodeDataUrl: string;
+      manualEntryKey: string;
+      backupCodes: string[];
+    }>('/auth/2fa/setup', {
+      method: 'POST',
+    }),
+  verifyTwoFactor: (code: string) =>
+    apiCall('/auth/2fa/verify', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    }),
+  disableTwoFactor: (code: string) =>
+    apiCall('/auth/2fa/disable', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    }),
+  regenerateBackupCodes: (code: string) =>
+    apiCall<{ backupCodes: string[] }>('/auth/2fa/backup-codes/regenerate', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
     }),
 };
 
@@ -386,6 +432,54 @@ export const adminAPI = {
     }),
   getAnalyticsSummary: () => apiCall<AnalyticsSummary>('/admin/analytics/summary'),
   getTopPartners: () => apiCall<TopPartner[]>('/admin/analytics/top-partners'),
+  getMonthlyRevenue: () => apiCall<{ month: string; totalRevenue: number }[]>('/admin/analytics/revenue-monthly'),
+  getConversionByStage: () =>
+    apiCall<Array<{ stage: string; serviceName: string; started: number; completed: number; conversionRate: number }>>(
+      '/admin/analytics/conversion-by-stage'
+    ),
+  getDealCompletionTime: () =>
+    apiCall<{ averageCompletionDays: number; completedDeals: number }>('/admin/analytics/deal-completion-time'),
+  getTopProductsRegions: () =>
+    apiCall<{
+      topProducts: Array<{ product: string; count: number; totalValue: number }>;
+      topRegions: Array<{ region: string; count: number; totalValue: number }>;
+    }>('/admin/analytics/top-products-regions'),
+};
+
+export const aiAPI = {
+  generateRecommendations: (userServiceId: string) =>
+    apiCall('/ai/recommendations/generate', {
+      method: 'POST',
+      body: JSON.stringify({ userServiceId }),
+    }),
+  getRecommendations: (userServiceId: string) =>
+    apiCall(`/ai/recommendations/${userServiceId}`),
+  selectRecommendation: (recommendationId: string) =>
+    apiCall(`/ai/recommendations/${recommendationId}/select`, {
+      method: 'POST',
+    }),
+};
+
+export const dealsAPI = {
+  create: (payload: {
+    product: string;
+    volume: number;
+    value: number;
+    origin: string;
+    destination: string;
+    status?: string;
+    metadata?: Record<string, unknown>;
+  }) =>
+    apiCall<DealRecord>('/deals/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  updateStatus: (dealId: string, status: string, metadata?: Record<string, unknown>) =>
+    apiCall<DealRecord>(`/deals/${dealId}/update-status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status, metadata }),
+    }),
+  getMyDeals: () => apiCall<DealRecord[]>('/deals/my'),
 };
 
 // ============ Partners API ============

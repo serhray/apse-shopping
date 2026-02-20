@@ -65,7 +65,13 @@ export default function LandingPage() {
       <section className="lp-hero">
         <div className="lp-hero__bg" />
         <div className="lp-hero__content">
-          <p className="lp-hero__tag">Import &amp; Export Consultancy</p>
+          <button 
+            onClick={() => navigate('/export-import')}
+            className="lp-hero__tag lp-hero__tag--clickable"
+            title="Explore our Export & Import services"
+          >
+            Import &amp; Export Consultancy →
+          </button>
           <h1 className="lp-hero__title">
             Navigate International Trade<br />
             with <span className="lp-hero__accent">Confidence</span>

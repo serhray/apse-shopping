@@ -13,6 +13,7 @@ import { AdminPage } from './pages/AdminPage';
 import PartnersPage from './pages/PartnersPage';
 import MarketDataPage from './pages/MarketDataPage';
 import MessagesPage from './pages/MessagesPage';
+import ExportImport from './pages/ExportImport';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/export-import" element={<ExportImport />} />
         
         {/* Protected Routes */}
         <Route

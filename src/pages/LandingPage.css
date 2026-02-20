@@ -205,6 +205,26 @@
   border: 1px solid #e2e8f0;
 }
 
+.lp-hero__tag--clickable {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  border-color: #1e40af;
+  cursor: pointer;
+  transition: all .3s ease;
+  border: none;
+  padding: .5rem 1.25rem;
+}
+
+.lp-hero__tag--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, .2);
+  background: linear-gradient(135deg, #1e40af 0%, #1830a0 100%);
+}
+
+.lp-hero__tag--clickable:active {
+  transform: translateY(0);
+}
+
 .lp-hero__title {
   font-size: 3.75rem;
   font-weight: 800;
