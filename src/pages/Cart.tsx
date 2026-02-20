@@ -69,29 +69,21 @@ const Cart: React.FC = () => {
           {/* Cart Items */}
           <div className="cart-items">
             {cartItems.map((item) => {
-              const price = item.product.wholesalePrice || item.product.price;
-              const itemTotal = price * item.quantity;
+              const itemTotal = item.price * item.quantity;
 
               return (
                 <div key={item.id} className="cart-item">
                   <img
-                    src={item.product.image}
-                    alt={item.product.name}
-                    onClick={() => navigate(`/product/${item.product.slug}`)}
+                    src={item.image}
+                    alt={item.name}
+                    onClick={() => navigate(`/product/${item.productId}`)}
                   />
 
                   <div className="item-details">
-                    <h3 onClick={() => navigate(`/product/${item.product.slug}`)}>
-                      {item.product.name}
+                    <h3 onClick={() => navigate(`/product/${item.productId}`)}>
+                      {item.name}
                     </h3>
-                    <p className="item-category">{item.product.category.name}</p>
-                    <p className="item-price">₹{price.toFixed(2)}</p>
-
-                    {item.product.stock < 10 && item.product.stock > 0 && (
-                      <p className="stock-warning">
-                        Only {item.product.stock} left in stock
-                      </p>
-                    )}
+                    <p className="item-price">${item.price.toFixed(2)}</p>
                   </div>
 
                   <div className="item-actions">
@@ -105,13 +97,13 @@ const Cart: React.FC = () => {
                       <span>{item.quantity}</span>
                       <button
                         onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                        disabled={item.quantity >= item.product.stock || isLoading}
+                        disabled={isLoading}
                       >
                         <FaPlus />
                       </button>
                     </div>
 
-                    <p className="item-total">₹{itemTotal.toFixed(2)}</p>
+                    <p className="item-total">${itemTotal.toFixed(2)}</p>
 
                     <button
                       className="btn-remove"
@@ -132,22 +124,22 @@ const Cart: React.FC = () => {
 
             <div className="summary-row">
               <span>Subtotal:</span>
-              <span>₹{subtotal.toFixed(2)}</span>
+              <span>${subtotal.toFixed(2)}</span>
             </div>
 
             <div className="summary-row">
-              <span>Tax (18% GST):</span>
-              <span>₹{tax.toFixed(2)}</span>
+              <span>Tax (18%):</span>
+              <span>${tax.toFixed(2)}</span>
             </div>
 
             <div className="summary-row">
               <span>Shipping:</span>
-              <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
+              <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
             </div>
 
             {subtotal < 1000 && (
               <p className="shipping-notice">
-                Add ₹{(1000 - subtotal).toFixed(2)} more for FREE shipping
+                Add ${(1000 - subtotal).toFixed(2)} more for FREE shipping
               </p>
             )}
 
@@ -155,7 +147,7 @@ const Cart: React.FC = () => {
 
             <div className="summary-row total">
               <span>Total:</span>
-              <span>₹{total.toFixed(2)}</span>
+              <span>${total.toFixed(2)}</span>
             </div>
 
             <button

@@ -300,12 +300,12 @@ const Checkout: React.FC = () => {
               <div className="summary-items">
                 {cartItems.slice(0, 3).map((item) => (
                   <div key={item.id} className="summary-item">
-                    <img src={item.product.image} alt={item.product.name} />
+                    <img src={item.image} alt={item.name} />
                     <div>
-                      <p>{item.product.name}</p>
+                      <p>{item.name}</p>
                       <small>Qty: {item.quantity}</small>
                     </div>
-                    <span>₹{((item.product.wholesalePrice || item.product.price) * item.quantity).toFixed(2)}</span>
+                    <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
                 {cartItems.length > 3 && (
@@ -316,20 +316,20 @@ const Checkout: React.FC = () => {
               <div className="summary-calculations">
                 <div className="summary-row">
                   <span>Subtotal:</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+                  <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Tax (18%):</span>
-                  <span>₹{tax.toFixed(2)}</span>
+                  <span>${tax.toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Shipping:</span>
-                  <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="summary-divider"></div>
                 <div className="summary-row total">
                   <span>Total:</span>
-                  <span>₹{total.toFixed(2)}</span>
+                  <span>${total.toFixed(2)}</span>
                 </div>
               </div>
 

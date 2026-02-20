@@ -14,8 +14,7 @@ import LoginPage from './pages/LoginPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
-import DashboardPage from './pages/DashboardPage';
-import ServiceDetailPage from './pages/ServiceDetailPage';
+import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
@@ -35,6 +34,7 @@ function App() {
           <Route path="/services-preowned" element={<Layout><ServicesPreOwned /></Layout>} />
           <Route path="/export-import" element={<Layout><ExportImport /></Layout>} />
           <Route path="/contact" element={<Layout><ContactUs /></Layout>} />
+          <Route path="/product/:id" element={<Layout><ProductDetails /></Layout>} />
           <Route path="/cart" element={<Layout><Cart /></Layout>} />
           <Route path="/checkout" element={<Layout><Checkout /></Layout>} />
           <Route path="/order-confirmation" element={<Layout><OrderConfirmation /></Layout>} />
@@ -47,22 +47,6 @@ function App() {
           <Route path="/verify-email" element={<VerifyEmailPage />} />
 
           {/* Protected Routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Layout><DashboardPage /></Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/service/:id"
-            element={
-              <ProtectedRoute>
-                <Layout><ServiceDetailPage /></Layout>
-              </ProtectedRoute>
-            }
-          />
           <Route
             path="/admin"
             element={

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { authAPI } from '../services/consultancyAPI';
+import api from '../services/api';
 import './AuthPages.css';
 
 export default function ForgotPasswordPage() {
@@ -16,11 +16,11 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const res = await authAPI.requestPasswordReset(email);
-      if (res.success) {
-        setMessage(res.message || 'Check your inbox for a reset link.');
+      const res = await api.post('/auth/request-reset', { email });
+      if (res.data.success) {
+        setMessage(res.data.message || 'Check your inbox for a reset link.');
       } else {
-        setError(res.error || 'Unable to request password reset.');
+        setError(res.data.error || 'Unable to request password reset.');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to request password reset.');

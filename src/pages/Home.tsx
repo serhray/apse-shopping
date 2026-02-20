@@ -7,7 +7,8 @@ import {
   FaChevronRight,
 } from 'react-icons/fa';
 import ProductCard from '../components/common/ProductCard';
-import { apiService, Product, Category } from '../services/api';
+import { sampleProducts, sampleCategories } from '../data/sampleData';
+import type { Product, Category } from '../types';
 import './Home.css';
 
 const heroSlides = [
@@ -43,11 +44,10 @@ const heroSlides = [
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Use local sample data (no backend needed for MVP)
+  const categories: Category[] = sampleCategories;
+  const allProducts: Product[] = sampleProducts;
+  const newArrivals = sampleProducts.filter((p) => p.badge === 'New').slice(0, 4);
 
   // Auto-advance carousel
   useEffect(() => {
@@ -55,45 +55,6 @@ const Home: React.FC = () => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
-
-  // Load data from API
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        // Load categories
-        const categoriesRes = await apiService.categories.getCategories();
-        if (categoriesRes.success && categoriesRes.data) {
-          setCategories(categoriesRes.data);
-        }
-
-        // Load featured products
-        const featuredRes = await apiService.products.getFeaturedProducts(8);
-        if (featuredRes.success && featuredRes.data) {
-          setFeaturedProducts(featuredRes.data);
-        }
-
-        // Load all products for sections
-        const productsRes = await apiService.products.getProducts({
-          limit: 50,
-        });
-        if (productsRes.success && Array.isArray(productsRes.data)) {
-          setAllProducts(productsRes.data as Product[]);
-          // Get products with badge (new arrivals)
-          const newItems = (productsRes.data as Product[]).filter(
-            (p: Product) => p.badge === 'New' || p.badge === 'Hot'
-          );
-          setNewArrivals(newItems.slice(0, 4));
-        }
-      } catch (error) {
-        console.error('Failed to load data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
   }, []);
 
   // Prepare sections from all products

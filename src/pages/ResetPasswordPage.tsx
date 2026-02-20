@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { authAPI } from '../services/consultancyAPI';
+import api from '../services/api';
 import './AuthPages.css';
 
 export default function ResetPasswordPage() {
@@ -36,12 +36,12 @@ export default function ResetPasswordPage() {
 
     setLoading(true);
     try {
-      const res = await authAPI.resetPassword(token, password);
-      if (res.success) {
-        setMessage(res.message || 'Password reset successful.');
+      const res = await api.post('/auth/reset-password', { token, password });
+      if (res.data.success) {
+        setMessage(res.data.message || 'Password reset successful.');
         setTimeout(() => navigate('/login'), 1200);
       } else {
-        setError(res.error || 'Unable to reset password.');
+        setError(res.data.error || 'Unable to reset password.');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to reset password.');

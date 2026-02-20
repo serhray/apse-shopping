@@ -1,27 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../../types';
-import type { Product as ApiProduct } from '../../services/api';
 import { FaStar } from 'react-icons/fa';
 import './ProductCard.css';
 
 interface ProductCardProps {
-  product: Product | ApiProduct;
+  product: Product;
   variant?: 'default' | 'compact' | 'wholesale';
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'default' }) => {
   const navigate = useNavigate();
 
-  // Get slug for navigation
-  const getSlug = (): string | null => {
-    return (product as any).slug || null;
-  };
-
   const handleNavigateToProduct = () => {
-    const slug = getSlug();
-    if (slug) {
-      navigate(`/product/${slug}`);
-    }
+    navigate(`/product/${product.id}`);
   };
 
   const renderStars = (rating: number) =>
@@ -45,27 +36,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'default' 
   }
 
   if (variant === 'wholesale') {
-    const apiProduct = product as ApiProduct;
     return (
       <div className="product-card" onClick={handleNavigateToProduct}>
         <div className="product-card-image">
           <img src={product.image} alt={product.name} loading="lazy" />
-          {apiProduct.badge && <span className="product-badge">{apiProduct.badge}</span>}
+          {product.badge && <span className="product-badge">{product.badge}</span>}
         </div>
         <div className="product-card-info">
           <p className="product-card-name">{product.name}</p>
           <div className="product-card-rating">{renderStars(product.rating)}</div>
           <div className="product-card-price">
-            {apiProduct.oldPrice && (
-              <span className="old">${apiProduct.oldPrice.toFixed(2)}</span>
+            {product.oldPrice && (
+              <span className="old">${product.oldPrice.toFixed(2)}</span>
             )}
             <span className="current">${product.price.toFixed(2)}</span>
           </div>
-          {apiProduct.wholesalePrice && (
-            <div style={{ fontSize: '0.85rem', color: '#27ae60', fontWeight: 600, marginTop: 8 }}>
-              Wholesale: ${apiProduct.wholesalePrice.toFixed(2)}
-            </div>
-          )}
           <button className="add-to-cart">Add to Cart</button>
         </div>
       </div>
@@ -73,19 +58,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'default' 
   }
 
   // Default variant
-  const apiProduct = product as ApiProduct;
   return (
     <div className="product-card" onClick={handleNavigateToProduct}>
       <div className="product-card-image">
         <img src={product.image} alt={product.name} loading="lazy" />
-        {apiProduct.badge && <span className="product-badge">{apiProduct.badge}</span>}
+        {product.badge && <span className="product-badge">{product.badge}</span>}
       </div>
       <div className="product-card-info">
         <p className="product-card-name">{product.name}</p>
         <div className="product-card-rating">{renderStars(product.rating)}</div>
         <div className="product-card-price">
-          {apiProduct.oldPrice && (
-            <span className="old">${apiProduct.oldPrice.toFixed(2)}</span>
+          {product.oldPrice && (
+            <span className="old">${product.oldPrice.toFixed(2)}</span>
           )}
           <span className="current">${product.price.toFixed(2)}</span>
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { authAPI } from '../services/consultancyAPI';
+import api from '../services/api';
 import './AuthPages.css';
 
 export default function VerifyEmailPage() {
@@ -22,13 +22,13 @@ export default function VerifyEmailPage() {
 
       setStatus('loading');
       try {
-        const res = await authAPI.verifyEmail(token);
-        if (res.success) {
+        const res = await api.get(`/auth/verify-email/${token}`);
+        if (res.data.success) {
           setStatus('success');
-          setMessage(res.message || 'Email verified successfully.');
+          setMessage(res.data.message || 'Email verified successfully.');
         } else {
           setStatus('error');
-          setMessage(res.error || 'Unable to verify email.');
+          setMessage(res.data.error || 'Unable to verify email.');
         }
       } catch (err) {
         setStatus('error');
@@ -46,11 +46,11 @@ export default function VerifyEmailPage() {
     setResendLoading(true);
 
     try {
-      const res = await authAPI.resendVerification(email);
-      if (res.success) {
-        setResendMessage(res.message || 'If the email exists, a verification link has been sent.');
+      const res = await api.post('/auth/resend-verification', { email });
+      if (res.data.success) {
+        setResendMessage(res.data.message || 'If the email exists, a verification link has been sent.');
       } else {
-        setResendError(res.error || 'Unable to resend verification email.');
+        setResendError(res.data.error || 'Unable to resend verification email.');
       }
     } catch (err) {
       setResendError(err instanceof Error ? err.message : 'Unable to resend verification email.');
