@@ -44,12 +44,12 @@ const Header: React.FC = () => {
             <a href="#">
               <FaMapMarkerAlt /> Locate Me
             </a>
-            <a href="#">
+            <Link to="/login">
               <FaSignInAlt /> Log In
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="/login">
               <FaUserPlus /> Register
-            </a>
+            </Link>
             <div className="social-icons">
               <a href="#" aria-label="Facebook">
                 <FaFacebookF />
