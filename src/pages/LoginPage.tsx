@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './LoginPage.css';
@@ -9,12 +9,20 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
 
-  if (isAuthenticated) {
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    if (user?.role === 'ADMIN') {
+      navigate('/admin', { replace: true });
+      return;
+    }
+
     navigate('/', { replace: true });
-    return null;
-  }
+  }, [isAuthenticated, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +30,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/');
+      const loggedUser = await login(email, password);
+      if (loggedUser?.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
     } finally {

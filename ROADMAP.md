@@ -45,6 +45,18 @@ Refazer o frontend para ficar visualmente equivalente ao site de referência (ht
 
 ---
 
+## MVP — Gaps que ainda faltam
+- [ ] Padronizar UX visual de **todas** as páginas dos 4 módulos (spacing, tipografia, botões, cards)
+- [ ] Revisar fluxo de autenticação no contexto e-commerce:
+	- [x] usuário comum após login → Home (`/`)
+	- [x] admin após login → painel Admin (`/admin`)
+- [ ] Definir comportamento para links topbar (`Locate Me`, redes sociais) e placeholders
+- [ ] Garantir estados vazios e mensagens amigáveis (sem erros técnicos expostos)
+- [ ] Revisar conteúdo de texto para linguagem comercial e-commerce (remover termos legados B2B)
+- [ ] Fechar checklist mobile para Header/Home/Retail/Wholesale/Export-Import
+
+---
+
 ## Backlog de Segurança (continua ativo no backend)
 - [ ] Rate limiting por IP em rotas críticas
 - [ ] Sanitização de input e proteção XSS
